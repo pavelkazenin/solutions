@@ -1,6 +1,6 @@
 The Parallel module implements a method described in the article available at
 http://pavelkazenin.wordpress.com/2014/08/02/optimal-number-of-threads-in-parallel-computing/
-for various algorithms:
+for various algorithms: 
 
 com.pavelkazenin.parallel.util.Calculators.java contains utility functions to compute the optimal number of threads:
 
