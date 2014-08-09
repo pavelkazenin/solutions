@@ -1,0 +1,18 @@
+The Parallel module implements a method described in the article available at
+http://pavelkazenin.wordpress.com/2014/08/02/optimal-number-of-threads-in-parallel-computing/
+for various algorithms:
+
+com.pavelkazenin.parallel.util.Calculators.java contains utility functions to compute the optimal number of threads:
+
+     computeOptimalThreadsQuickSort  - for quick sort algorithm  c(n) = O(n log(n))
+     computeOptimalThreadsPower      - for multi-dimentional algorithms c(n) = O(n^k)
+     computeOptimalThreadsLinear     - for linear algorithms c(n) = O(n)
+
+
+com.pavelkazenin.parallel.util.ArraysExt.java extends functionality of the java.util.Arrays class 
+by adding methods for optimal parallel sorting:
+
+     parallelSort - sorts input array of comparable objects in parallel. 
+                    The number of parallel threads can be passed in as an input parameter or 
+                    optimal number of threads can be estimated.
+     isSorted     - checks if input array of comparable objects is sorted
