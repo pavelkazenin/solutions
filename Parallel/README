@@ -15,4 +15,36 @@ by adding methods for optimal parallel sorting:
      parallelSort - sorts input array of comparable objects in parallel. 
                     The number of parallel threads can be passed in as an input parameter or 
                     optimal number of threads can be estimated.
+                    
+                    examples of usage:
+                    
+                    // retrieve String array
+                    String[] array = getStringArray();
+                    
+                    // estimate optimal number of threads to sort the array at first call
+                    // and sort the array
+                    int nOptimalThreads = ArraysExt.parallelSort( array, -1 );
+                    
+                    // retrieve String array
+                    array = getStringArray();
+                    
+                    // sort the array in parallel using previously calculated number of threads
+                    ArraysExt.parallelSort( array, nOptimalThreads );
+                    
+                    
      isSorted     - checks if input array of comparable objects is sorted
+     
+                    examples of usage:
+                    
+                    boolean sorted = ArraysExt.isSorted( array );
+                    if (sorted) { 
+                       System.out.println("Array is sorted"); 
+                    }
+                    else { 
+                       System.out.println("Array is not sorted"); 
+                    }
+                    
+
+The docs directory contains method description in PDF format:
+
+     docs/OptimalThreads.pdf  - description of the method in PDF format
