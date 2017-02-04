@@ -1,5 +1,5 @@
 The Frequency module implements an algorithm described in the article available at
-http://pavelkazenin.wordpress.com/2014/08/02/optimal-number-of-threads-in-parallel-computing/.
+http://pavelkazenin.wordpress.com/2017/02/04/demodulation-of-fm-signal-using-apache-spark/
 
 
 1. To simulate signal data, enter
