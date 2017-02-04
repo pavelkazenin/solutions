@@ -1,0 +1,31 @@
+The Frequency module implements an algorithm described in the article available at
+http://pavelkazenin.wordpress.com/2014/08/02/optimal-number-of-threads-in-parallel-computing/.
+
+
+1. To simulate signal data, enter
+
+   java -cp target/com.pavelkazenin.frequency-1.0.jar com.pavelkazenin.frequency.ThetaDataGenerator -frequency 100021.03 -period 10 -samples 10 -in /tmp/thetaData
+
+   where 
+	 -frequency : signal frequency, cycles per second (default: 100000.0)
+	 -in        : path to generated signal data file (default: /tmp/thetaData)
+	 -period    : period of signal sampling, milliseconds (default: 10)
+	 -samples   : number of signal samples (default: 10)
+
+
+2. To run the spark program and view the results, enter
+
+   spark-submit --class com.pavelkazenin.frequency.ThetaDataEtlRunner target/com.pavelkazenin.frequency-1.0.jar —frequency 100000.0 -bandwidth 100.0 - probes 10000 -bins 250 -in /tmp/thetaData 1>/dev/null 2>&1; cat /tmp/thetaResult
+
+   where 
+	 -frequency : carrier frequency, cycles per second (default: 100000.0)
+	 -bandwidth : bandwidth, each side (default: 100.0)
+	 -probes    : number of probing reference frequencies
+	 -bins      : number of histogram bins
+	 -in        : path to generated signal data file (default: /tmp/thetaData)
+	 -out       : path to result file (default: /tmp/thetaResult)
+
+
+3. The docs directory contains algorithm description in PDF format:
+
+     docs/FrequencyDemodulationUsingSpark.pdf  - description of the algorithm in PDF format

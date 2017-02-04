@@ -1,0 +1,22 @@
+# ThetaDataGenerator
+# -frequency VAL : signal frequency, cycles per second (default: 100000.0)
+# -in VAL        : path to generated signal data file (default: /tmp/thetaData)
+# -period VAL    : period of signal sampling, milliseconds (default: 10)
+# -samples VAL   : number of signal samples (default: 10)
+#
+$ java -cp target/com.pavelkazenin.frequency-1.0.jar com.pavelkazenin.frequency.ThetaDataGenerator -frequency 100021 -period 10
+
+# ThetaDataEtlRunner
+#
+# /tmp/thetaResult:
+# Input parameters:
+#  inputFile = /tmp/thetaData
+#  carrier   = 100000.0
+#  bandwidth = 100.0
+#  probes    = 200
+#  bins      = 50
+#  steps     = 1
+# Output results:
+# FK = 100021.0, TA = 0.0045166115918
+#
+spark-submit --class com.pavelkazenin.frequency.ThetaDataEtlRunner target/com.pavelkazenin.frequency-1.0.jar -steps 1 -probes 200 -bins 50 1>/dev/null 2>&1; cat /tmp/thetaResult
