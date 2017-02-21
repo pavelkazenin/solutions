@@ -15,7 +15,7 @@ http://pavelkazenin.wordpress.com/2017/02/04/demodulation-of-fm-signal-using-apa
 
 2. To run the spark program and view the results, enter
 
-   spark-submit --class com.pavelkazenin.frequency.ThetaDataEtlRunner target/com.pavelkazenin.frequency-1.0.jar —frequency 100000.0 -bandwidth 100.0 - probes 10000 -bins 250 -in /tmp/thetaData 1>/dev/null 2>&1; cat /tmp/thetaResult
+   spark-submit --class com.pavelkazenin.frequency.ThetaDataEtlRunner target/com.pavelkazenin.frequency-1.0.jar —frequency 100000.0 -bandwidth 100.0 -probes 10000 -bins 250 -in /tmp/thetaData 1>/dev/null 2>&1; cat /tmp/thetaResult
 
    where 
 	 -frequency : carrier frequency, cycles per second (default: 100000.0)
