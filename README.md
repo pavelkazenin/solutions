@@ -15,3 +15,13 @@ Algorithm to demodulate FM-modulated signal using Apache Spark framework.
 Implements method described in 
 https://pavelkazenin.wordpress.com/2017/02/04/demodulation-of-fm-signal-using-apache-spark/
 article.
+
+### Joins
+Project demontrates various techniques to join two datasets using Apache Spark framework:
+
+* PairRDD `combineByKey`
+* PairRDD `groupByKey`
+* SQL `groupBy`
+* SQL `select`
+
+
