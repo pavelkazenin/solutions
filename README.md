@@ -16,12 +16,9 @@ Implements method described in
 https://pavelkazenin.wordpress.com/2017/02/04/demodulation-of-fm-signal-using-apache-spark/
 article.
 
+### BloomFilter
+Project demonstrates BloomFilter applications in Apache Spark Batch and Streaming ETLs
+
 ### Joins
-Project demontrates various techniques to join two datasets using Apache Spark framework:
-
-* PairRDD `combineByKey`
-* PairRDD `groupByKey`
-* SQL `groupBy`
-* SQL `select`
-
+Project demonstrates various techniques to join two datasets using Apache Spark framework.
 

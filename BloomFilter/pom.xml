@@ -4,10 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.pavelkazenin</groupId>
-    <artifactId>joins</artifactId>
+    <artifactId>bloomfilter</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>joins</name>
+    <name>bloomfilter</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <scala.version>2.12.17</scala.version>
@@ -17,6 +17,7 @@
         <scalatest.version>3.2.13</scalatest.version>
     </properties>
     <dependencies>
+        <!-- Scala -->
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
@@ -37,6 +38,7 @@
             <artifactId>scala-parser-combinators_${scala.compat.version}</artifactId>
             <version>2.1.1</version>
         </dependency>
+        <!-- Kafka -->
         <dependency>
             <groupId>org.apache.kafka</groupId>
             <artifactId>kafka_${scala.compat.version}</artifactId>
@@ -48,6 +50,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!-- Spark -->
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-core_${scala.compat.version}</artifactId>
@@ -78,6 +81,18 @@
             <artifactId>args4j</artifactId>
             <version>2.33</version>
         </dependency>
+        <!-- Bloom Filter -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>31.1-jre</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.15</version>
+        </dependency>
+        <!-- Testing -->
         <dependency>
             <groupId>org.scalatest</groupId>
             <artifactId>scalatest_${scala.compat.version}</artifactId>
@@ -92,8 +107,6 @@
         </dependency>
     </dependencies>
     <build>
-        <sourceDirectory>src/main/scala</sourceDirectory>
-        <testSourceDirectory>src/test/scala</testSourceDirectory>
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -122,7 +135,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
+                <version>3.10.1</version>
                 <executions>
                     <execution>
                         <phase>compile</phase>
@@ -135,7 +148,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.3.0</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -145,24 +158,39 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <transformers>
+                        <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                            <mainClass>com.pavelkazenin.bloomfilter.JobRunner</mainClass>
+                        </transformer>
+                    </transformers>
                     <filters>
                         <filter>
                             <artifact>*:*</artifact>
                             <excludes>
+                                <exclude>META-INF/maven/**</exclude>
                                 <exclude>META-INF/*.SF</exclude>
                                 <exclude>META-INF/*.DSA</exclude>
                                 <exclude>META-INF/*.RSA</exclude>
                             </excludes>
                         </filter>
                     </filters>
+                    <relocations>
+                        <!-- shade Guava lib -->
+                        <relocation>
+                            <pattern>com</pattern>
+                            <shadedPattern>repackaged.com.google.common</shadedPattern>
+                            <includes>
+                                <include>com.google.common.**</include>
+                            </includes>
+                        </relocation>
+                    </relocations>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>scala-maven-plugin</artifactId>
-                <version>4.4.0</version>
+                <version>4.7.1</version>
                 <configuration>
-                    <!-- <scalaVersion>${scala.version}</scalaVersion> -->
                     <args>
                         <arg>-unchecked</arg>
                         <arg>-deprecation</arg>
@@ -173,7 +201,7 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <id>scala-compile-first</id>
+                        <id>scala-compile</id>
                         <phase>process-resources</phase>
                         <goals>
                             <goal>add-source</goal>
@@ -205,7 +233,7 @@
                 <configuration>
                     <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
                     <junitxml>.</junitxml>
-                    <filereports>JoinsTestSuite.txt</filereports>
+                    <filereports>BloomFilterTestSuite.txt</filereports>
                 </configuration>
                 <executions>
                     <execution>
