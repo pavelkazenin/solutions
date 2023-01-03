@@ -53,7 +53,9 @@ parameters:
 -mode       operation mode, can be:
             generate  - generates initial and incremental customers datasets
             build     - builds and persists Bloom Filter for initial dataset
-            filter    - apply Bloom Filter to incremental dataset
+            filter    - apply Bloom Filter to incremental dataset in Batch mode
+            stream    - apply Bloom Filter to incremental dataset in Stream mode
+            
            
 -initdata   directory for initial customers dataset
 -incrdata   directory for incremental customers dataset
@@ -79,4 +81,22 @@ customer_id|first_name|last_name|street|city|state|zip
 ```
 
 # Sample Streaming execution
-TBA
+
+* Customers:
+```
+customer_id|first_name|last_name|street|city|state|zip
+2001|FirstName1|LastName1|Street Address 1|City1|S1|11111
+```
+
+* Console output
+```
+-------------------------------------------
+Batch: 1
+-------------------------------------------
++-----------+-------------+------------+--------------------+--------+---------+-------+
+|customer_id|   first_name|   last_name|              street|    city|    state|    zip|
++-----------+-------------+------------+--------------------+--------+---------+-------+
+|       2001|FirstName2001|LastName12001|Street Address 2001|City2001|State2001|Zip2001|
++-----------+-------------+------------+--------------------+--------+---------+-------+
+only showing top 20 rows
+```

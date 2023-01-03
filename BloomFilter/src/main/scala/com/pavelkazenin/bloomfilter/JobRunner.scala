@@ -1,6 +1,7 @@
 package com.pavelkazenin.bloomfilter
 
 import com.pavelkazenin.bloomfilter.etl.{BuildFilterEtl, FilterDataEtl, GenerateDataEtl}
+import com.pavelkazenin.bloomfilter.stream.FilterDataStream
 import com.pavelkazenin.bloomfilter.utils.AppContext
 import com.pavelkazenin.bloomfilter.utils.Constants
 import org.apache.spark.sql.SparkSession
@@ -69,6 +70,8 @@ object JobRunner extends Constants {
       .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
       .getOrCreate();
 
+    spark.sparkContext.setLogLevel("ERROR")
+
     val appContext = new AppContext
 
     appContext.put(INIT_DATA_PATH, JobArgs.initdata)
@@ -83,6 +86,7 @@ object JobRunner extends Constants {
         case MODE_GENERATE => GenerateDataEtl.executeJob(spark, appContext)
         case MODE_BUILD => BuildFilterEtl.executeJob(spark, appContext)
         case MODE_FILTER => FilterDataEtl.executeJob(spark, appContext)
+        case MODE_STREAM => FilterDataStream.executeStream(spark, appContext)
         case _ => {
           println("Usage:")
           parser.printUsage(System.out)
